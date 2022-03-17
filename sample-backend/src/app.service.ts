@@ -8,7 +8,9 @@ export class AppService {
 
 	private readonly inMemoryUsersDB: CreateUserDTO[] = [];
 
-	constructor(@Inject('COMMUNICATION') private readonly communicationClient: ClientProxy) {}
+	constructor(
+		@Inject('COMMUNICATION') private readonly communicationClient: ClientProxy,
+		@Inject('ANALYTICS') private readonly analyticsClient: ClientProxy) {}
 	
 	getHello(): string {
 		return 'Hello World!';
@@ -17,5 +19,10 @@ export class AppService {
 	createUser(createUser: CreateUserDTO) {
 		this.inMemoryUsersDB.push(createUser);
 		this.communicationClient.emit('userCreated', new CreateUserEvent(createUser.email)); 
+		this.analyticsClient.emit('userCreated', new CreateUserEvent(createUser.email));
+	}
+
+	getAnalytics() {
+		return this.analyticsClient.send({ cmd: 'getAnalytics'}, {});
 	}
 }

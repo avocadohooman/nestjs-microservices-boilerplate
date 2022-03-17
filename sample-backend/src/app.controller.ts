@@ -4,15 +4,20 @@ import { CreateUserDTO } from './create-user.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+	constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+	@Get()
+	getHello(): string {
+		return this.appService.getHello();
+	}
 
-  @Post()
-  createUser(@Body() createUser: CreateUserDTO) {
-	  this.appService.createUser(createUser);
-  }
+	@Post()
+	createUser(@Body() createUser: CreateUserDTO) {
+		this.appService.createUser(createUser);
+	}
+
+	@Get('analytics')
+	getAnalytics() {
+		return this.appService.getAnalytics();
+	}
 }
